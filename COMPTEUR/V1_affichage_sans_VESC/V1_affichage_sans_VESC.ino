@@ -33,7 +33,7 @@
 // ######################################## Librarys ########################################
 
 #include <LiquidCrystal_I2C.h>
-#include <math.h>
+
 
 // ################################ METHODES DECLARATION #####################################
 int countDigits(int number); 
