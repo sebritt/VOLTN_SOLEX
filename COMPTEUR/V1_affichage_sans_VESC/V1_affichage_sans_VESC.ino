@@ -36,7 +36,7 @@
 #include <math.h>
 
 // ################################ METHODES DECLARATION #####################################
-
+int countDigits(int number); 
 //########################################### LCD ############################################
 LiquidCrystal_I2C lcd(0x27, 16, 2); //I2C address 0x27, 16 column and 2 rows
 void LCD_INIT();
@@ -340,38 +340,19 @@ void LCD_printInt(short column, short ligne,int value,int min,int max)
       lcd.setCursor(column-countDigits(value), ligne);
       lcd.print("X");
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  if((value>min) && (value<max))
-  {
-    if(min < 0)
-    {
-      lcd.setCursor(column-countDigits(value)-1, ligne);
-      lcd.print(String(value));
-    }
-    else
-    {
-      lcd.setCursor(column-countDigits(value), ligne);
-      lcd.print(String(value));
-    }
-  }
-  else
-  {
-      lcd.setCursor(column-countDigits(value), ligne);
-      lcd.print("X");
-  }
 
+
+}
+
+
+int countDigits(int number) {
+    int count = 0;
+    if (number == 0) {
+        return 1; // Edge case for 0
+    }
+    while (number != 0) {
+        number /= 10; // Divide the number by 10, chopping off the last digit
+        count++;      // Increment the digit count
+    }
+    return count;
 }
