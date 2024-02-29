@@ -1,7 +1,31 @@
+/**
+ * \file V1 bare minimum for screen setup
+ * \brief bare minimum to controle a LCD with i2c arduino to display essential values
+ * \author Gaspard Carbon
+ * \version 0.1
+ * \date 29 Feb 2024
+ *
+ * Programme de test pour l'objet de gestion des chaines de caractères Str_t.
+ *
+ */
+
+
+
+
+
+
+// ######################################## Librarys ########################################
+
 #include <LiquidCrystal_I2C.h>
+
+
+// ################################ METHODES DECLARATION #####################################
 
 LiquidCrystal_I2C lcd(0x27, 16, 2); //I2C address 0x27, 16 column and 2 rows
 
+// #################################### GLOBAL VARIABLES ####################################
+
+// ################################## LCD GLOBAL VARIABLES ##################################
 byte temp_symbol[8] = {
   0b10000,
   0b01111,
@@ -56,13 +80,11 @@ byte kph_symbol[8] = {
   0b00111,
   0b00101,
 };
-
+// #########################################################################################
 
 void setup() {
-  
-  //DISPLAY SETUP
-  lcd.init();
-  lcd.backlight();
+  LCD_INIT()
+
 
   //init all the specials caracters
   lcd.createChar(0, temp_symbol); // create a new custom character
@@ -131,4 +153,18 @@ void loop() {
   
          
         
+}
+
+void LCD_INIT()
+{
+  //DISPLAY SETUP
+  lcd.init();
+  lcd.backlight();
+}
+
+
+void staticPrint()
+{
+
+
 }
