@@ -42,7 +42,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2); //I2C address 0x27, 16 column and 2 rows
 void LCD_INIT();
 void LCD_staticPrint();
 //SI BESOIN CHANGER LES INPUT AN STRING POUR AUGMENTER LA RAPIDITE DE CES FONCTIONS !!! donc chancher le LCD_printInt en LCD_printString
-void LCD_printInt(short column, short ligne,int value,int min,int max)
+void LCD_printInt(short column, short ligne,int value,int min,int max);
 void LCD_updateMotorTemp(int temp);
 void LCD_updateMotorCurrent(int current);
 void LCD_updateBatteryTemp(int temp);
