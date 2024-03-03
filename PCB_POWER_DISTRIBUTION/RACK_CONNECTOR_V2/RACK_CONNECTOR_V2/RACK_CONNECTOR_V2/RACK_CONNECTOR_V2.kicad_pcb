@@ -188,7 +188,7 @@
     (property "SnapEDA_Link" "https://www.snapeda.com/parts/XT90PW-F/AMASS/view-part/?ref=snap")
     (path "/aa6f0f69-792d-4dd3-8b1d-b9f2e6d0e6d4")
     (attr through_hole)
-    (fp_text reference "J19" (at -7.475 -15.565) (layer "F.SilkS")
+    (fp_text reference "J19" (at -9.06 -10.52) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 05919a82-f89e-4ffe-b4f5-999349525613)
     )
@@ -239,7 +239,7 @@
     (property "Sheetname" "")
     (path "/60bd821a-acde-486a-b846-b5d1e7ebe8d4")
     (attr through_hole)
-    (fp_text reference "J27" (at 0 -2.33 90) (layer "F.SilkS")
+    (fp_text reference "J27" (at -0.34 -2.74) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 9ed920cd-1f0d-407e-a5ce-8a9662719310)
     )
@@ -310,7 +310,7 @@
     (property "SnapEDA_Link" "https://www.snapeda.com/parts/XT90PW-M/AMASS/view-part/?ref=snap")
     (path "/3eceb20e-b8a3-4fea-998a-930b26b3634d")
     (attr through_hole)
-    (fp_text reference "J21" (at -7.475 -15.005) (layer "F.SilkS")
+    (fp_text reference "J21" (at 9.06 -11.34) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 29b2edf9-99cf-4e90-a635-36189840bff0)
     )
@@ -360,7 +360,7 @@
     (property "Sheetname" "")
     (path "/c7e93e68-3e1e-4d98-997d-309da3a97902")
     (attr through_hole)
-    (fp_text reference "J9" (at 0 -2.33 90) (layer "F.SilkS")
+    (fp_text reference "J9" (at 0 -2.5 180) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 4861ef66-7ea1-4007-8762-377dfbe532ff)
     )
@@ -431,7 +431,7 @@
     (property "SnapEDA_Link" "https://www.snapeda.com/parts/XT90PW-M/AMASS/view-part/?ref=snap")
     (path "/fdd7b420-b72d-452f-b662-06bac874af43")
     (attr through_hole)
-    (fp_text reference "J23" (at -7.475 -15.005) (layer "F.SilkS")
+    (fp_text reference "J23" (at 8.95 -11.25) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 411f35e4-67c0-4f16-949c-8d9ceec7c473)
     )
@@ -479,7 +479,7 @@
     (property "Sheetname" "")
     (path "/372800ef-345b-4981-a3f0-818db921a146")
     (attr through_hole)
-    (fp_text reference "J13" (at -12.48 -6.415) (layer "F.SilkS")
+    (fp_text reference "J13" (at 13.9 -2.28) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 8bbeba5a-ae47-4cf9-ac2d-6c46d97e7125)
     )
@@ -535,7 +535,7 @@
     (property "Sheetname" "")
     (path "/7cb08a70-3f5d-4341-bf6e-21e9f86adbaa")
     (attr through_hole)
-    (fp_text reference "J25" (at 0 -2.33 90) (layer "F.SilkS")
+    (fp_text reference "J25" (at -0.3 -3.03 180) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp d7e14f87-889d-4cc4-a810-86aef18e0af8)
     )
@@ -596,7 +596,7 @@
     (property "Sheetname" "")
     (path "/7fae98d7-531d-4676-b8b5-26581bdc57ff")
     (attr through_hole)
-    (fp_text reference "J10" (at 0 -2.33 90) (layer "F.SilkS")
+    (fp_text reference "J10" (at -0.07 -2.74 180) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp a8b38a1d-f8ed-4035-ae51-620c65fd8548)
     )
@@ -655,7 +655,7 @@
     (property "Sheetname" "")
     (path "/3af39ae8-fc7a-4f40-b103-7b4020fddae9")
     (attr through_hole)
-    (fp_text reference "J14" (at -12.48 -6.415) (layer "F.SilkS")
+    (fp_text reference "J14" (at 14.01 -2.22) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 098a2515-3a7d-4eb7-855b-2cca187769be)
     )
@@ -721,7 +721,7 @@
     (property "SnapEDA_Link" "https://www.snapeda.com/parts/XT90PW-F/AMASS/view-part/?ref=snap")
     (path "/7ba1e32b-b7a5-4c61-b43e-3664fd436575")
     (attr through_hole)
-    (fp_text reference "J17" (at -7.475 -15.565) (layer "F.SilkS")
+    (fp_text reference "J17" (at -8.97 -10.54) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 30a70b9f-18eb-4da3-92cb-48569d95c9aa)
     )
@@ -770,7 +770,7 @@
     (property "Sheetname" "")
     (path "/b702c303-47a1-429a-9aa3-59808061e5d8")
     (attr through_hole)
-    (fp_text reference "J2" (at -12.48 -6.415) (layer "F.SilkS")
+    (fp_text reference "J2" (at -14.37 -2.12) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp eb89ce3f-46af-4141-b9a9-05392a7bb030)
     )
@@ -826,7 +826,7 @@
     (property "Sheetname" "")
     (path "/c9eab34d-d8e8-401b-9ec1-fcedd30f8750")
     (attr through_hole)
-    (fp_text reference "J8" (at 0 -2.33 90) (layer "F.SilkS")
+    (fp_text reference "J8" (at -0.05 22.64 180) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 68f64933-108f-4ad6-ab68-36e7aefa8c09)
     )
@@ -885,7 +885,7 @@
     (property "Sheetname" "")
     (path "/e6721ea2-e970-489b-a4dc-6e99881b45d8")
     (attr through_hole)
-    (fp_text reference "J15" (at -12.48 -6.415) (layer "F.SilkS")
+    (fp_text reference "J15" (at 14.06 -2.38) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 30acc024-62ea-4396-8d05-4bca1a9b2d50)
     )
@@ -941,7 +941,7 @@
     (property "Sheetname" "")
     (path "/803f13fd-5744-49f8-8b4d-6b3c1a13af63")
     (attr through_hole)
-    (fp_text reference "J7" (at 0 -2.33 90) (layer "F.SilkS")
+    (fp_text reference "J7" (at -0.24 22.81 180) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 9f329818-1dc0-4a6e-8604-709f4943d9ed)
     )
@@ -1000,7 +1000,7 @@
     (property "Sheetname" "")
     (path "/51cc989d-3e48-47f5-87b2-9b2a8ce66ed8")
     (attr through_hole)
-    (fp_text reference "J4" (at -12.48 -6.415) (layer "F.SilkS")
+    (fp_text reference "J4" (at -14.5 -2.09) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 5fd054e3-d9b6-4831-ae4f-91c44548f2a9)
     )
@@ -1056,7 +1056,7 @@
     (property "Sheetname" "")
     (path "/73135535-2a02-4874-8de9-ac02be991519")
     (attr through_hole)
-    (fp_text reference "J6" (at 0 -2.33 90) (layer "F.SilkS")
+    (fp_text reference "J6" (at -0.14 22.83 180) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp f989bf8c-3fff-404a-8e1d-b639ee74f519)
     )
@@ -1127,7 +1127,7 @@
     (property "SnapEDA_Link" "https://www.snapeda.com/parts/XT90PW-M/AMASS/view-part/?ref=snap")
     (path "/06cccf2c-d0d0-41ad-bc61-a0c3e7cbae93")
     (attr through_hole)
-    (fp_text reference "J22" (at -7.475 -15.005) (layer "F.SilkS")
+    (fp_text reference "J22" (at 9.03 -11.1) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp b1853ee1-af2e-49ab-93e4-e29b2d9f793d)
     )
@@ -1177,7 +1177,7 @@
     (property "Sheetname" "")
     (path "/9066201f-d5b2-4677-9c6c-a53e50ea0955")
     (attr through_hole)
-    (fp_text reference "J12" (at 0 -2.33 90) (layer "F.SilkS")
+    (fp_text reference "J12" (at -0.1 -2.76 180) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp d74a104a-35da-4cb0-a175-88b67893caa9)
     )
@@ -1248,7 +1248,7 @@
     (property "SnapEDA_Link" "https://www.snapeda.com/parts/XT90PW-F/AMASS/view-part/?ref=snap")
     (path "/16121028-bdf5-49c0-aae7-e28fe5bfa771")
     (attr through_hole)
-    (fp_text reference "J18" (at -7.475 -15.565) (layer "F.SilkS")
+    (fp_text reference "J18" (at -8.96 -10.61) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp c8fb4913-3537-44c5-9b4e-c1941745b408)
     )
@@ -1299,7 +1299,7 @@
     (property "Sheetname" "")
     (path "/0abad01c-8cfb-4cd7-9f2d-5ad9e9479b46")
     (attr through_hole)
-    (fp_text reference "J26" (at 0 -2.33 90) (layer "F.SilkS")
+    (fp_text reference "J26" (at -0.24 -2.8 180) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 9ff65318-fa9b-4e86-8d9b-d3dfc58ecdfb)
     )
@@ -1360,7 +1360,7 @@
     (property "Sheetname" "")
     (path "/ad2ea191-4b92-4f8d-a2d7-0383f4505cbb")
     (attr through_hole)
-    (fp_text reference "J11" (at 0 -2.33 90) (layer "F.SilkS")
+    (fp_text reference "J11" (at -0.09 -3.05) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 7c2b8d7d-5db3-42d9-9191-7103d8e184f1)
     )
@@ -1431,7 +1431,7 @@
     (property "SnapEDA_Link" "https://www.snapeda.com/parts/XT90PW-M/AMASS/view-part/?ref=snap")
     (path "/8c494fa1-4079-4d55-b329-2ad9e636de09")
     (attr through_hole)
-    (fp_text reference "J24" (at -7.475 -15.005) (layer "F.SilkS")
+    (fp_text reference "J24" (at 8.84 -11.15) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 069b45c5-d385-4b68-8423-1368541a793b)
     )
@@ -1479,7 +1479,7 @@
     (property "Sheetname" "")
     (path "/6379db2c-eed1-4346-b495-c93dd2491e05")
     (attr through_hole)
-    (fp_text reference "J3" (at -12.48 -6.415) (layer "F.SilkS")
+    (fp_text reference "J3" (at -14.45 -2.03) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 0a92d4e8-2c99-46ae-8b9d-e9a5f254af09)
     )
@@ -1535,7 +1535,7 @@
     (property "Sheetname" "")
     (path "/4b9e5b04-411b-4437-a64b-0cc9fd79dccd")
     (attr through_hole)
-    (fp_text reference "J28" (at 0 -2.33 90) (layer "F.SilkS")
+    (fp_text reference "J28" (at -0.22 -2.88 180) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp bc39fee1-9268-490f-8468-df595c012436)
     )
@@ -1606,7 +1606,7 @@
     (property "SnapEDA_Link" "https://www.snapeda.com/parts/XT90PW-F/AMASS/view-part/?ref=snap")
     (path "/5ceca855-608f-4200-94f3-c97d4e54770d")
     (attr through_hole)
-    (fp_text reference "J20" (at -7.475 -15.565) (layer "F.SilkS")
+    (fp_text reference "J20" (at -8.97 -10.46) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp dc30c6f2-6ff2-4f91-99ab-2bfa4259f28c)
     )
@@ -1657,7 +1657,7 @@
     (property "Sheetname" "")
     (path "/d2cf6259-1969-4081-84ce-29cf52509b64")
     (attr through_hole)
-    (fp_text reference "J5" (at 0 -2.33 90) (layer "F.SilkS")
+    (fp_text reference "J5" (at -0.06 22.97 180) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp f09226eb-f337-40ac-978d-992910b9e751)
     )
@@ -1716,7 +1716,7 @@
     (property "Sheetname" "")
     (path "/aeb531e5-7619-461e-b363-c4f883e50da2")
     (attr through_hole)
-    (fp_text reference "J1" (at -12.48 -6.415) (layer "F.SilkS")
+    (fp_text reference "J1" (at -14.42 -2.09) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 8b090b00-7178-4520-ae4e-d3d432bc702f)
     )
@@ -1770,7 +1770,7 @@
     (property "Sheetname" "")
     (path "/271c03d6-1bef-4dff-9b26-ef30fbb30d45")
     (attr through_hole)
-    (fp_text reference "J16" (at -12.48 -6.415) (layer "F.SilkS")
+    (fp_text reference "J16" (at 13.975 -2.26) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 68b42d46-e82d-43b4-8946-8f84a3f802a5)
     )
@@ -1819,6 +1819,54 @@
 
   (gr_poly
     (pts
+      (xy 252.45 107.66)
+      (xy 252.5 107.61)
+      (xy 252.5 98.18)
+    ) (layer "F.Cu") (width 7) (fill none) (tstamp 23f1a1c2-529e-4e03-9e7d-1e619767c0cc))
+  (gr_poly
+    (pts
+      (xy 263.33 107.69)
+      (xy 263.38 107.64)
+      (xy 263.38 98.21)
+    ) (layer "F.Cu") (width 7) (fill none) (tstamp 5cf31b0d-63fb-44f3-b09d-4eaf977b5d54))
+  (gr_poly
+    (pts
+      (xy 203.32 107.68)
+      (xy 203.37 107.63)
+      (xy 203.37 98.2)
+    ) (layer "F.Cu") (width 7) (fill none) (tstamp 668ea2bf-1384-4eb0-93fb-804ec278a3ad))
+  (gr_poly
+    (pts
+      (xy 132.45 107.67)
+      (xy 132.5 107.62)
+      (xy 132.5 98.19)
+    ) (layer "F.Cu") (width 7) (fill none) (tstamp 67395d30-3f75-4f5e-a7de-d50613a941f0))
+  (gr_poly
+    (pts
+      (xy 143.34 107.71)
+      (xy 143.39 107.66)
+      (xy 143.39 98.23)
+    ) (layer "F.Cu") (width 7) (fill none) (tstamp 7a4c12b4-bac7-4a85-ad5f-4c99f4ebb49a))
+  (gr_poly
+    (pts
+      (xy 83.29 107.75)
+      (xy 83.34 107.7)
+      (xy 83.34 98.27)
+    ) (layer "F.Cu") (width 7) (fill none) (tstamp 900b0740-24c2-4363-87b3-14d97532e6db))
+  (gr_poly
+    (pts
+      (xy 72.42 107.69)
+      (xy 72.47 107.64)
+      (xy 72.47 98.21)
+    ) (layer "F.Cu") (width 7) (fill none) (tstamp c18e50b3-8d78-4133-a2e8-ff0f74a17c57))
+  (gr_poly
+    (pts
+      (xy 192.37 107.64)
+      (xy 192.42 107.59)
+      (xy 192.42 98.16)
+    ) (layer "F.Cu") (width 7) (fill none) (tstamp ccea2f3b-19cd-4bb0-aaa7-d527c31f9a4c))
+  (gr_poly
+    (pts
       (xy 143.34 107.685201)
       (xy 143.39 107.635201)
       (xy 143.39 98.205201)
@@ -1841,7 +1889,6 @@
       (xy 203.33 107.595201)
       (xy 203.33 98.165201)
     ) (layer "B.Mask") (width 7) (fill none) (tstamp 66303674-e73c-4e86-bfe0-71514cff7e4e))
-  (gr_rect (start 87.44 111.52) (end 68.29 94.06) (layer "B.Mask") (width 0.15) (fill none) (tstamp 7deb4efc-77ba-4eaa-9a36-bdfc40f5f49b))
   (gr_poly
     (pts
       (xy 72.440141 107.645201)
@@ -1866,6 +1913,54 @@
       (xy 83.35 107.63)
       (xy 83.35 98.2)
     ) (layer "B.Mask") (width 7) (fill none) (tstamp f10a849a-7b33-47b1-a16e-9dc9f0c6114c))
+  (gr_poly
+    (pts
+      (xy 132.47 107.59)
+      (xy 132.52 107.54)
+      (xy 132.52 98.11)
+    ) (layer "F.Mask") (width 7) (fill none) (tstamp 000903a6-4e55-4d38-8185-aaabd361e353))
+  (gr_poly
+    (pts
+      (xy 83.27 107.76)
+      (xy 83.32 107.71)
+      (xy 83.32 98.28)
+    ) (layer "F.Mask") (width 7) (fill none) (tstamp 1f6ebb5a-c0ad-41dd-9078-702efbbfa402))
+  (gr_poly
+    (pts
+      (xy 252.44 107.65)
+      (xy 252.49 107.6)
+      (xy 252.49 98.17)
+    ) (layer "F.Mask") (width 7) (fill none) (tstamp 231e0fe5-f944-4ebd-9b7c-e1ea30afc03d))
+  (gr_poly
+    (pts
+      (xy 143.32 107.69)
+      (xy 143.37 107.64)
+      (xy 143.37 98.21)
+    ) (layer "F.Mask") (width 7) (fill none) (tstamp 2da2f1d8-b31b-4c08-a01f-ea871d022b42))
+  (gr_poly
+    (pts
+      (xy 263.32 107.65)
+      (xy 263.37 107.6)
+      (xy 263.37 98.17)
+    ) (layer "F.Mask") (width 7) (fill none) (tstamp 40af1fd7-d2f7-44a5-b36d-1023049bcb70))
+  (gr_poly
+    (pts
+      (xy 192.35 107.65)
+      (xy 192.4 107.6)
+      (xy 192.4 98.17)
+    ) (layer "F.Mask") (width 7) (fill none) (tstamp 66336ae4-b3e0-4a71-b2f1-9c9b625a561c))
+  (gr_poly
+    (pts
+      (xy 203.3 107.69)
+      (xy 203.35 107.64)
+      (xy 203.35 98.21)
+    ) (layer "F.Mask") (width 7) (fill none) (tstamp be7738ae-6119-4aff-8cab-d0951a2e691c))
+  (gr_poly
+    (pts
+      (xy 72.46 107.69)
+      (xy 72.51 107.64)
+      (xy 72.51 98.21)
+    ) (layer "F.Mask") (width 7) (fill none) (tstamp e0c9a44a-7d53-49ab-9590-d28614f4c45b))
   (gr_line (start 223.512651 87.706383) (end 223.512651 88.356383) (layer "Dwgs.User") (width 0.5) (tstamp 00627221-b0fd-448e-b5a6-250d249697c2))
   (gr_line (start 251.5834 265.0898) (end 251.5834 260.0898) (layer "Dwgs.User") (width 0.25) (tstamp 009b0d62-e9ea-4825-9fdf-befd291c76ce))
   (gr_line (start 230.397651 108.056383) (end 230.397651 108.706383) (layer "Dwgs.User") (width 0.5) (tstamp 00c9c1c9-df78-4bf8-a378-9edee7dafbe3))
@@ -3030,22 +3125,6 @@
   (segment (start 83.35 107.63) (end 83.3 107.68) (width 7) (layer "B.Cu") (net 80) (tstamp 51c7ac7e-dd7f-4172-9936-c4e147239cad))
   (segment (start 83.35 98.2) (end 83.35 107.63) (width 7) (layer "B.Cu") (net 80) (tstamp ecc23eea-db26-4947-84d5-1bf43b274269))
 
-  (group "" (id 0df514bc-8773-4947-8519-e301b35be818)
-    (members
-      13c9b3c2-eaa9-4b58-a4bf-5714cc684e85
-      3a650da1-78d5-497e-bb17-0ce57ad9d220
-      b5ba6b70-753f-4d24-a4fa-8901df220f6d
-      e712e5ad-ef6c-406e-ad24-a7827c0c69d5
-    )
-  )
-  (group "" (id 75eabd05-991b-450e-855b-ebfac927def4)
-    (members
-      516c1522-ced6-4dae-8272-163c4e0afed3
-      5f119573-1b63-4dfb-97c3-f0d9e540c910
-      8c2c7488-ee2b-43b1-96b6-a7ff8cd8a64a
-      ebf483a6-d7b8-4efa-8774-13cbda087705
-    )
-  )
   (group "" (id 7be13a36-eb8e-440f-aaac-2fd6665d9f61)
     (members
       00627221-b0fd-448e-b5a6-250d249697c2
