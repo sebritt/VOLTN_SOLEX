@@ -1817,6 +1817,55 @@
       (solder_mask_margin 0.102) (tstamp 725b7088-5e5d-400d-8e81-45ca4eecb09a))
   )
 
+  (gr_poly
+    (pts
+      (xy 143.34 107.685201)
+      (xy 143.39 107.635201)
+      (xy 143.39 98.205201)
+    ) (layer "B.Mask") (width 7) (fill none) (tstamp 06bbd3a8-4053-4447-ae43-7e04cb6d037a))
+  (gr_poly
+    (pts
+      (xy 192.39 107.685201)
+      (xy 192.44 107.635201)
+      (xy 192.44 98.205201)
+    ) (layer "B.Mask") (width 7) (fill none) (tstamp 0e0f1c67-8e4e-4947-9757-34de95d4acca))
+  (gr_poly
+    (pts
+      (xy 132.390141 107.645201)
+      (xy 132.440141 107.595201)
+      (xy 132.440141 98.165201)
+    ) (layer "B.Mask") (width 7) (fill none) (tstamp 5418537e-ae6f-45c5-bd3d-d563d6258a93))
+  (gr_poly
+    (pts
+      (xy 203.28 107.645201)
+      (xy 203.33 107.595201)
+      (xy 203.33 98.165201)
+    ) (layer "B.Mask") (width 7) (fill none) (tstamp 66303674-e73c-4e86-bfe0-71514cff7e4e))
+  (gr_rect (start 87.44 111.52) (end 68.29 94.06) (layer "B.Mask") (width 0.15) (fill none) (tstamp 7deb4efc-77ba-4eaa-9a36-bdfc40f5f49b))
+  (gr_poly
+    (pts
+      (xy 72.440141 107.645201)
+      (xy 72.490141 107.595201)
+      (xy 72.490141 98.165201)
+    ) (layer "B.Mask") (width 7) (fill none) (tstamp 9d113775-ef93-4248-8dfb-a5405c4e4ee3))
+  (gr_poly
+    (pts
+      (xy 252.45 107.685201)
+      (xy 252.5 107.635201)
+      (xy 252.5 98.205201)
+    ) (layer "B.Mask") (width 7) (fill none) (tstamp a28b58b3-b23f-4dcf-aab0-907e96343a07))
+  (gr_poly
+    (pts
+      (xy 263.35 107.685201)
+      (xy 263.4 107.635201)
+      (xy 263.4 98.205201)
+    ) (layer "B.Mask") (width 7) (fill none) (tstamp bb530135-96c4-4d08-bf64-e34425639584))
+  (gr_poly
+    (pts
+      (xy 83.3 107.68)
+      (xy 83.35 107.63)
+      (xy 83.35 98.2)
+    ) (layer "B.Mask") (width 7) (fill none) (tstamp f10a849a-7b33-47b1-a16e-9dc9f0c6114c))
   (gr_line (start 223.512651 87.706383) (end 223.512651 88.356383) (layer "Dwgs.User") (width 0.5) (tstamp 00627221-b0fd-448e-b5a6-250d249697c2))
   (gr_line (start 251.5834 265.0898) (end 251.5834 260.0898) (layer "Dwgs.User") (width 0.25) (tstamp 009b0d62-e9ea-4825-9fdf-befd291c76ce))
   (gr_line (start 230.397651 108.056383) (end 230.397651 108.706383) (layer "Dwgs.User") (width 0.5) (tstamp 00c9c1c9-df78-4bf8-a378-9edee7dafbe3))
@@ -2975,8 +3024,9 @@
   (segment (start 132.49 107.56) (end 132.37 107.68) (width 7) (layer "B.Cu") (net 77) (tstamp e6ea92a0-f1fa-4ff9-b308-636654622706))
   (segment (start 143.39 107.56) (end 143.27 107.68) (width 7) (layer "B.Cu") (net 78) (tstamp 4996b3e0-3982-4249-b683-a9be3fb7c2bd))
   (segment (start 143.39 98.22) (end 143.39 107.56) (width 7) (layer "B.Cu") (net 78) (tstamp caa174be-1d14-49a9-bd48-e0c4ebcc1a95))
-  (segment (start 72.45 98.2) (end 72.45 107.63) (width 7) (layer "B.Cu") (net 79) (tstamp 53fb8dd3-3da8-4f28-8b0f-7932f951246a))
-  (segment (start 72.45 107.63) (end 72.4 107.68) (width 7) (layer "B.Cu") (net 79) (tstamp 9cf1f8d0-cb18-46cf-8c50-3f90f4983ca7))
+  (segment (start 72.51 98.26) (end 72.51 107.57) (width 7) (layer "B.Cu") (net 79) (tstamp 072d6630-971f-49aa-8e5c-a00ad624d144))
+  (segment (start 72.51 107.57) (end 72.4 107.68) (width 7) (layer "B.Cu") (net 79) (tstamp 188c32be-1299-4e6b-8669-9cc5010054a0))
+  (segment (start 72.45 98.2) (end 72.51 98.26) (width 7) (layer "B.Cu") (net 79) (tstamp 4a4aabc8-0f5f-47e6-b764-6b928600a5f6))
   (segment (start 83.35 107.63) (end 83.3 107.68) (width 7) (layer "B.Cu") (net 80) (tstamp 51c7ac7e-dd7f-4172-9936-c4e147239cad))
   (segment (start 83.35 98.2) (end 83.35 107.63) (width 7) (layer "B.Cu") (net 80) (tstamp ecc23eea-db26-4947-84d5-1bf43b274269))
 
