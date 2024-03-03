@@ -10,6 +10,14 @@
  */
 
 
+// ######################################## Librarys ########################################
+
+#include <LiquidCrystal_I2C.h>
+#include <VescUart.h>
+#include <buffer.h>
+#include <crc.h>
+#include <datatypes.h>
+
 // ######################################## DEFINES ########################################
 
 //Define all the analog port on the PCB
@@ -23,33 +31,45 @@
 #define SW1 2
 #define SW2 3
 #define SW3 4
-//Define all the digial output port on the PCB
+//Define all the digital output port on the PCB
 #define OUT1 6
 #define OUT2 7
 #define OUT3 8
 
-
-
-// ######################################## Librarys ########################################
-
-#include <LiquidCrystal_I2C.h>
-
+//Define motor settings
+#define NB_POLE 7
+#define WHEEL_DIAMETER 0.43 //17 pouces
+#define REDUCTION 16/185
 
 // ################################ METHODES DECLARATION #####################################
 int countDigits(int number); 
+
 //########################################### LCD ############################################
 LiquidCrystal_I2C lcd(0x27, 16, 2); //I2C address 0x27, 16 column and 2 rows
 void LCD_INIT();
 void LCD_staticPrint();
 //SI BESOIN CHANGER LES INPUT AN STRING POUR AUGMENTER LA RAPIDITE DE CES FONCTIONS !!! donc chancher le LCD_printInt en LCD_printString
 void LCD_printInt(short column, short ligne,int value,int min,int max);
-void LCD_updateMotorTemp(int temp);
-void LCD_updateMotorCurrent(int current);
-void LCD_updateBatteryTemp(int temp);
-void LCD_updateBatteryVoltage(int voltage);
-void LCD_updateSpeed(int speed);
-void LCD_updateVescTemp(int temp);
+void LCD_updateMotorTemp(float temp);
+void LCD_updateMotorCurrent(float current);
+void LCD_updateBatteryTemp(float temp);
+void LCD_updateBatteryVoltage(float voltage);
+void LCD_updateSpeed(float speed);
+void LCD_updateVescTemp(float temp);
 void LCD_test();
+
+//########################################### VESC ############################################
+
+float VESC_getMotorCurrent();
+float VESC_getMotorTemp();
+float VESC_getBatteryVoltage();
+float VESC_getSpeed();
+float VESC_VescTemp();
+
+void VESC_test();
+void getValues();
+
+
 
 
 // #################################### GLOBAL VARIABLES ####################################
@@ -67,14 +87,14 @@ byte temp_symbol[8] = {
 };
 
 byte batt_symbol[8] = {
-  0b01000,
-  0b11100,
-  0b10101,
-  0b10100,
-  0b10100,
-  0b10101,
-  0b10100,
-  0b11100
+  0b01110,
+  0b11111,
+  0b10001,
+  0b10001,
+  0b10001,
+  0b10001,
+  0b10001,
+  0b11111
 };
 
 byte speed_symbol[8] = {
@@ -111,10 +131,40 @@ byte kph_symbol[8] = {
 };
 // #########################################################################################
 
+// ################################## VESC GLOBAL VARIABLES ##################################
+VescUart UART;//Initiate VescUart class
+
+struct Data_struct
+{
+  int speed           = 0;
+  int batteryVoltage  = 0;
+  int batteryTemp     = 0;
+  int motorCurrent    = 0;
+  int motorTemp       = 0; 
+  int vescTemp        = 0;
+};
+
+Data_struct Data;
+//#########################################################################################
+
+
+
 void setup() {
-  LCD_INIT(); //Init the LCD module and setup the non changing char on the screen
-  LCD_test();
+
+//Init the LCD module and setup the non changing char on the screen
+  LCD_INIT(); 
+  LCD_staticPrint();
+//VESC init
+  Serial.begin(19200);//Setup UART port
+  
+  while (!Serial) {;}
+
+  UART.setSerialPort(&Serial);//Define which ports to use as UART
+
+  //Display values from ESC
+  VESC_test();
 }
+
 
 void loop() {
   
@@ -172,7 +222,6 @@ void LCD_staticPrint()
   //Current consumtion
   lcd.setCursor(5, 1);
   lcd.print("A");
-  
  
   //VESC Temp
   lcd.setCursor(12, 1);
@@ -234,12 +283,13 @@ void LCD_test()
  * \fn void LCD_updateMotorTemp(int temp)
  * \brief Update the motor temp on the display
  *
- * \param int temp: the temp of the motor btw 0 to 999 degrees
+ * \param float temp: the temp of the motor btw 0 to 999 degrees
  * \return None
  */
-void LCD_updateMotorTemp(int temp)
+void LCD_updateMotorTemp(float temp)
 {
-  LCD_printInt(5,0,temp, 0, 999);
+  int temp_int=int(temp);
+  LCD_printInt(5,0,temp_int, 0, 999);
 }
 
 
@@ -248,13 +298,13 @@ void LCD_updateMotorTemp(int temp)
  * \fn void LCD_updateMotorCurrent(int current)
  * \brief Update the motor current on the display
  *
- * \param int current: the current of the motor btw -999 to 999 A
+ * \param float current: the current of the motor btw -999 to 999 A
  * \return None
  */
-void LCD_updateMotorCurrent(int current)
+void LCD_updateMotorCurrent(float current)
 {
- LCD_printInt(5,1,current, -999, 999);
-
+  int current_int= int(current);
+  LCD_printInt(5,1,current, -999, 999);
 }
 
 
@@ -262,12 +312,13 @@ void LCD_updateMotorCurrent(int current)
  * \fn void LCD_updateBatteryTemp(int temp)
  * \brief Update the battery temp on the display
  *
- * \param int temp: the Current of the motor btw 0 to 99 C
+ * \param float temp: the Current of the motor btw 0 to 99 C
  * \return None
  */
-void LCD_updateBatteryTemp(int temp)
+void LCD_updateBatteryTemp(float temp)
 {
-  LCD_printInt(10,1,temp, 0, 99);
+  int temp_int=int(temp);
+  LCD_printInt(10,1,temp_int, 0, 99);
 }
 
 
@@ -275,12 +326,13 @@ void LCD_updateBatteryTemp(int temp)
  * \fn void LCD_updateBatteryVoltage(int voltage)
  * \brief Update the battery voltage on the display
  *
- * \param int voltage: the voltage of the motor btw 0 to 99 V
+ * \param float voltage: the voltage of the motor btw 0 to 99 V
  * \return None
  */
-void LCD_updateBatteryVoltage(int voltage)
+void LCD_updateBatteryVoltage(float voltage)
 {
-  LCD_printInt(10,0,voltage, 0, 99);
+  int voltage_int=int(voltage);
+  LCD_printInt(10,0,voltage_int, 0, 99);
 }
 
 
@@ -288,12 +340,13 @@ void LCD_updateBatteryVoltage(int voltage)
  * \fn void LCD_updateSpeed(int speed)
  * \brief Update the speed of the solex on the display
  *
- * \param int speed: the speed of the solex btw 0 to 99 km/h
+ * \param float speed: the speed of the solex btw 0 to 99 km/h
  * \return None
  */
-void LCD_updateSpeed(int speed)
+void LCD_updateSpeed(float speed)
 {
-  LCD_printInt(15,0,speed, 0, 99);
+  int speed_int=int(speed);
+  LCD_printInt(15,0,speed_int, 0, 99);
 }
 
 
@@ -301,12 +354,13 @@ void LCD_updateSpeed(int speed)
  * \fn void LCD_updateVescTemp(int temp)
  * \brief Update the temp of the vesc on the display
  *
- * \param int temp: the temp of the vesc btw 0 to 99 C
+ * \param float temp: the temp of the vesc btw 0 to 99 C
  * \return None
  */
-void LCD_updateVescTemp(int temp)
+void LCD_updateVescTemp(float temp)
 {
-  LCD_printInt(15,1,temp, 0, 99);
+  int temp_int=int(temp);
+  LCD_printInt(15,1,temp_int, 0, 99);
 }
 
 
@@ -356,3 +410,102 @@ int countDigits(int number) {
     }
     return count;
 }
+
+//######################################################################################
+
+
+/**
+ * \fn float VESC_getMotorCurrent()
+ * \brief Return the average motor current from the vesc
+ *
+ * \param None
+ * \return average motor current
+ */
+float VESC_getMotorCurrent(){
+  return UART.data.avgMotorCurrent;
+}
+
+/**
+ * \fnfloat VESC_getMotorTemp()
+ * \brief Return temp of the motor
+ *
+ * \param None
+ * \return motor temp
+ */
+float VESC_getMotorTemp(){
+  return UART.data.tempMotor;
+}
+
+/**
+ * float VESC_getBatteryVoltage()
+ * \brief Return Battery voltage
+ * \param None
+ * \return Battery voltage
+ */
+float VESC_getBatteryVoltage(){
+  return UART.data.inpVoltage;
+}
+
+/**
+ * float VESC_getSpeed()
+ * \brief Return speed computed from RPM
+ * \param None
+ * \return speed in kmph
+ */
+float VESC_getSpeed(){
+  return UART.data.rpm*((2*3.14)/60)*WHEEL_DIAMETER*REDUCTION; // v(km/h)=Rayon(m)*(2PI/60)*RPM(tr/min)*Reduction*3,6(conv en km/h)
+}
+
+/**
+ * float VESC_VescTemp()
+ * \brief Return Mosfet temperature
+ * \param None
+ * \return Vesc temp
+ */
+float VESC_VescTemp(){
+  return UART.data.tempMosfet;
+}
+
+
+/**
+ * \fn void getValues()
+ * \brief Store values in Data_struct
+ *
+ * \param None
+ * \return None
+ */
+void getValues(){
+  Data.motorTemp = int(VESC_getMotorTemp());
+  Data.motorCurrent = int(VESC_getMotorCurrent());
+ // LCD_updateBatteryTemp(float temp);
+  Data.batteryVoltage = int(VESC_getBatteryVoltage());
+  Data.speed = int(VESC_getSpeed());
+  Data.vescTemp = int(VESC_VescTemp());
+}
+
+/**
+ * \fn void VESC_test()
+ * \brief For testing vesc value on I2C display
+ *
+ * \param None
+ * \return None
+ */
+void VESC_test(){
+  LCD_updateMotorTemp(VESC_getMotorTemp());
+  LCD_updateMotorCurrent(VESC_getMotorCurrent());
+ // LCD_updateBatteryTemp(float temp);
+  LCD_updateBatteryVoltage(VESC_getBatteryVoltage());
+  LCD_updateSpeed(VESC_getSpeed());
+  LCD_updateVescTemp(VESC_VescTemp());
+}
+
+
+
+
+
+
+
+
+
+
+
