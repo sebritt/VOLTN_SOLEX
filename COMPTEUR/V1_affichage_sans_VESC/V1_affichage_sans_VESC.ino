@@ -13,28 +13,13 @@
 // ######################################## Librarys ########################################
 
 #include <LiquidCrystal_I2C.h>
+#include <SoftwareSerial.h>
 #include <VescUart.h>
 #include <buffer.h>
 #include <crc.h>
 #include <datatypes.h>
 
-// ######################################## DEFINES ########################################
 
-//Define all the analog port on the PCB
-#define GAZ A0
-#define AN1 A1
-#define AN2 A2
-#define AN3 A3
-#define AN4 A6
-#define AN5 A7
-//Define all the digial port for switchs on the PCB
-#define SW1 2
-#define SW2 3
-#define SW3 4
-//Define all the digital output port on the PCB
-#define OUT1 6
-#define OUT2 7
-#define OUT3 8
 
 //Define motor settings
 #define NB_POLE 7
@@ -59,6 +44,11 @@ void LCD_updateVescTemp(float temp);
 void LCD_test();
 
 //########################################### VESC ############################################
+/** Initiate VescUart class */
+VescUart UART;
+
+/** Initiate SoftwareSerial class */
+SoftwareSerial vescSerial(10, 9);
 
 float VESC_getMotorCurrent();
 float VESC_getMotorTemp();
@@ -132,7 +122,7 @@ byte kph_symbol[8] = {
 // #########################################################################################
 
 // ################################## VESC GLOBAL VARIABLES ##################################
-VescUart UART;//Initiate VescUart class
+
 
 struct Data_struct
 {
@@ -150,25 +140,52 @@ Data_struct Data;
 
 
 void setup() {
+Serial.begin(115200);
+
 
 //Init the LCD module and setup the non changing char on the screen
   LCD_INIT(); 
   LCD_staticPrint();
+
+
+
 //VESC init
-  Serial.begin(19200);//Setup UART port
+  vescSerial.begin(115200);
+
+  /** Define which ports to use as UART */
+  UART.setSerialPort(&vescSerial);
   
-  while (!Serial) {;}
-
-  UART.setSerialPort(&Serial);//Define which ports to use as UART
-
+  
   //Display values from ESC
   VESC_test();
+
+
+
+
+
 }
 
 
 void loop() {
   
-         
+         /** Call the function getVescValues() to acquire data from VESC */
+  if ( UART.getVescValues() ) {
+
+  LCD_updateMotorTemp(VESC_getMotorTemp());
+  LCD_updateMotorCurrent(VESC_getMotorCurrent());
+  LCD_updateBatteryTemp(0);
+  LCD_updateBatteryVoltage(VESC_getBatteryVoltage());
+  LCD_updateSpeed(VESC_getSpeed());
+  LCD_updateVescTemp(VESC_VescTemp());
+  LCD_staticPrint();
+
+  }
+  else
+  {
+    Serial.println("Failed to get data!");
+  }
+
+  delay(50); 
         
 }
 
@@ -182,6 +199,7 @@ void loop() {
 void LCD_INIT()
 {
   //DISPLAY SETUP
+  lcd.init();
   lcd.init();
   lcd.backlight();
 
@@ -304,7 +322,8 @@ void LCD_updateMotorTemp(float temp)
 void LCD_updateMotorCurrent(float current)
 {
   int current_int= int(current);
-  LCD_printInt(5,1,current, -999, 999);
+  LCD_printInt(5,1,current, 0, 999);
+ 
 }
 
 
@@ -372,11 +391,13 @@ void LCD_updateVescTemp(float temp)
  * \param short column => the colum from the start, short ligne => the lign from the start,int value => the value from to print ,int min,int max => to check min and max
  * \return None
  */
+ 
 void LCD_printInt(short column, short ligne,int value,int min,int max)
 {
 
   if((value>=min) && (value<=max))  //Test if the value is in the correct range if not print X
   {
+    //Affichage des caractères
     if(min <0) //display numbre that can be negative
     {
       lcd.setCursor(column-countDigits(value)-1, ligne);
@@ -388,6 +409,8 @@ void LCD_printInt(short column, short ligne,int value,int min,int max)
       lcd.print(String(value));
     }
     
+     
+ 
   }
   else
   {
@@ -397,6 +420,8 @@ void LCD_printInt(short column, short ligne,int value,int min,int max)
 
 
 }
+
+
 
 
 int countDigits(int number) {
