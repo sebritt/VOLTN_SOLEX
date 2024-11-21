@@ -832,4 +832,15 @@
 		(solder_mask_margin 0.102)
 		(uuid "7d2b2f39-5fa1-4a6d-b52e-4a715a717e5a")
 	)
+	(model "/home/seb/Documents/VOLTN_SOLEX/ACTIVE_BALANCER/electronique/KICAD_RAW_LIB/LTC3300ILXE-2_PBF/LTC3300ILXE-2_PBF.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -90 0 0)
+		)
+	)
 )

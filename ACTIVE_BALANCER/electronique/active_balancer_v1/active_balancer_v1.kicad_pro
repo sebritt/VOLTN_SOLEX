@@ -580,5 +580,22 @@
       "Racine"
     ]
   ],
-  "text_variables": {}
+  "text_variables": {
+    "CBOOST": "10uF 10V",
+    "CBOOST+": "0.1uF 10V",
+    "CBYPASS": "60uF 10V",
+    "CSENSFILTER": "0.63pF 10V",
+    "CSNUB": "100pF 100V",
+    "FET-N": "SIR882DP 100V 60A",
+    "RBOOST+": "6.5",
+    "RSENSFILTER": "2.5k",
+    "RSENSP": "10m",
+    "RSENSS": "10m",
+    "RSNUB": "330",
+    "RTONP": "23.33k",
+    "RTONS": "7.5k",
+    "RWDT": "2.5k",
+    "SHOTTKY": "RVB>6V ",
+    "TRANSFORMER": "750312504 1:2 ISAT=10A 3.5uF"
+  }
 }

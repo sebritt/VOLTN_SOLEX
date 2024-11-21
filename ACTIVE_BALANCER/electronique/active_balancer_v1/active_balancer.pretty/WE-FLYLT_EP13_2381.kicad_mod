@@ -1,0 +1,236 @@
+(footprint "WE-FLYLT_EP13_2381"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(descr "<b>WE-FLYLT Flyback Transformers for Linear Technology<br></b><br>Size: EP13,SMT,10pins<br>Bobbin: 070-2381")
+	(property "Reference" "REF**"
+		(at 0 -10.635 0)
+		(layer "F.SilkS")
+		(uuid "d5adb22a-59d1-4ece-9530-bf3a06e4484a")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "WE-FLYLT_EP13_2381"
+		(at 0 10.365 0)
+		(layer "F.Fab")
+		(uuid "7997b1fc-9321-4ef8-8e54-155923033502")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Footprint" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "ea5b72bf-2163-41e1-8f9c-09496d245c31")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "dc82cb56-b62b-4083-b3fc-253f6b5ec29c")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "107bfbe8-df14-4538-831e-6fc7ac3dd6e1")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -6.83 -6.83)
+		(end 6.83 -6.83)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "f26312ef-669f-4050-b5ea-e6ba6f3488ba")
+	)
+	(fp_line
+		(start -6.83 6.83)
+		(end -6.83 -6.83)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "0bff5eaf-1458-4632-ab70-2ffdc15324e6")
+	)
+	(fp_line
+		(start 6.83 -6.83)
+		(end 6.83 6.83)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "d24fc6e6-0848-43be-a71a-fb055d1f93b5")
+	)
+	(fp_line
+		(start 6.83 6.83)
+		(end -6.83 6.83)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "ae9a49cd-c599-4a21-bf8c-3cfa28dcafe3")
+	)
+	(fp_circle
+		(center -5 -5.5)
+		(end -4.7 -5.5)
+		(stroke
+			(width 0.6)
+			(type solid)
+		)
+		(fill none)
+		(layer "F.SilkS")
+		(uuid "054f6042-52b4-46d9-afa2-f6bc15f94eba")
+	)
+	(fp_poly
+		(pts
+			(xy 7.03 -9.3) (xy 7.03 9.3) (xy -7.03 9.3) (xy -7.03 -9.3)
+		)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill solid)
+		(layer "F.CrtYd")
+		(uuid "c2b905e1-d9fb-487e-9508-5a6811c55b14")
+	)
+	(fp_line
+		(start -6.73 -6.73)
+		(end -6.73 6.73)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "a6c1e83a-99f8-4c06-90f0-7fa7468857cc")
+	)
+	(fp_line
+		(start 6.73 -6.73)
+		(end -6.73 -6.73)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "dada3c94-15c2-4c14-b554-db2aa95ea842")
+	)
+	(fp_line
+		(start 6.73 -6.73)
+		(end 6.73 6.73)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "919ce750-a7ba-4b67-a377-e5a3efc2934e")
+	)
+	(fp_line
+		(start 6.73 6.73)
+		(end -6.73 6.73)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "231a44b2-086f-459c-a862-9c2b1c85861a")
+	)
+	(pad "1" smd rect
+		(at -5 -8.18)
+		(size 1.17 1.88)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(solder_mask_margin 0.102)
+		(uuid "dd4602a0-966d-46f6-98be-39755c0751fc")
+	)
+	(pad "2" smd rect
+		(at -2.5 -8.18)
+		(size 1.17 1.88)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(solder_mask_margin 0.102)
+		(uuid "e50f5daf-2305-42ef-b830-f23aeced7a67")
+	)
+	(pad "4" smd rect
+		(at 2.5 -8.18)
+		(size 1.17 1.88)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(solder_mask_margin 0.102)
+		(uuid "7e4eb96b-79d9-4afa-9feb-9eac8daf7163")
+	)
+	(pad "5" smd rect
+		(at 5 -8.18)
+		(size 1.17 1.88)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(solder_mask_margin 0.102)
+		(uuid "edbd1e91-aa90-48e5-a728-103f2ac2d997")
+	)
+	(pad "6" smd rect
+		(at 5 8.18)
+		(size 1.17 1.88)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(solder_mask_margin 0.102)
+		(uuid "043fa4b9-72a0-4e5d-9ea8-ea71fbaa66a9")
+	)
+	(pad "7" smd rect
+		(at 2.5 8.18)
+		(size 1.17 1.88)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(solder_mask_margin 0.102)
+		(uuid "20b22d28-9299-4702-83bb-d2efc7903dd3")
+	)
+	(pad "9" smd rect
+		(at -2.5 8.18)
+		(size 1.17 1.88)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(solder_mask_margin 0.102)
+		(uuid "2ea60093-6f28-4c99-831f-77f5b24ac7db")
+	)
+	(pad "10" smd rect
+		(at -5 8.18)
+		(size 1.17 1.88)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(solder_mask_margin 0.102)
+		(uuid "679f78fa-25a1-4863-bb4b-cf1c8efcc8ea")
+	)
+	(model "/home/seb/Documents/VOLTN_SOLEX/ACTIVE_BALANCER/electronique/KICAD_RAW_LIB/750312504/750312504.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -90 0 90)
+		)
+	)
+)
