@@ -8,3 +8,4 @@
 [] Rajouter le monitorage du VESC sur le site web
 [] Bonus temps au tour 
 [] Pour les LOGS CSV regarder la dernière clé usb/carte SD monté et prendre proposer parmis les logs 
+
