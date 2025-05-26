@@ -1,4 +1,0 @@
-(sym_lib_table
-  (version 7)
-  (lib (name "active_balancer_lib")(type "KiCad")(uri "${KIPRJMOD}/active_balancer_lib.kicad_sym")(options "")(descr ""))
-)
