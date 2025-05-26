@@ -1,0 +1,8 @@
+In the Arduino folder ther is two code:
+	The SOLEX_LOG wich is the real program who use the real sensor data
+	THe SOLEX_LOG_SIM wich emulate the data throw serial port. It's used to developed the DataAnalyser
+
+In the Data Folder there is a sample of a real data to test the DataAnalyser
+
+In the PyhtonDataAnalyser a programm written in python with flask to trace the real path of the CSV file or in live data with the serial port
+
