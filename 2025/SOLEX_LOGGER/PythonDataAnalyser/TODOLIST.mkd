@@ -1,0 +1,10 @@
+[] Avoir un terminal en bas de la page web avec la ligne lue et pouvoir l'editer + warning donnée aberrante pour supression
+[] Fixer le probleme du curseur de temps
+[] Pouvoir bouger dinamyquement les box 
+[] Pouvoir selectionner si l'on von centrer l'image sur la position actuel ou nom
+[] Avoir un menu de selection pour soit du live avec le port COM soit lire un CSV dans la page ce serait cool
+[] bonus afficher le rouli, tangage et yaw tu solex avec retenue des angles max
+[] Afficher vitesse max et moyen mais ne pas prendre compte en dessous de 10km/h
+[] Rajouter le monitorage du VESC sur le site web
+[] Bonus temps au tour 
+[] Pour les LOGS CSV regarder la dernière clé usb/carte SD monté et prendre proposer parmis les logs 
