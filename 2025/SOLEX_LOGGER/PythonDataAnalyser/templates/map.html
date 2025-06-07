@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Carte GPS</title>
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; }
+    #map { height: 100vh; width: 100%; }
+    #info {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      z-index: 9999;
+      background-color: white;
+      padding: 10px;
+      border: 2px solid black;
+      border-radius: 5px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      max-width: 40%;
+    }
+    #slider {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 9999;
+      background-color: white;
+      padding: 10px;
+      border: 2px solid black;
+      border-radius: 5px;
+      font-family: monospace;
+      display: none;
+    }
+    input[type=range] {
+      width: 250px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+  <button id="recenter-btn" style="
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  background-color: white;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+">
+  Recentrer sur la position
+</button>
+  <div id="map"></div>
+  <div id="info">En attente...</div>
+  <div id="slider">
+    <label for="range">Temps: <span id="timeVal">--:--</span></label><br>
+    <input type="range" id="range" min="0" max="0" value="0">
+  </div>
+
+  <script>
+    const map = L.map('map').setView([48.0, -1.0], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18
+    }).addTo(map);
+
+    let trail = [];
+    let polylines = [];
+    let currentMarker = null;
+    let allData = [];
+    let lastIndex = -1;
+    let currentLatLng = null;
+
+    const isLive = async () => {
+      const res = await fetch('/data');
+      const data = await res.json();
+      return data.length === 1; // Live renvoie 1 point, CSV plusieurs
+    };
+
+    const speedToColor = speed => {
+      const ratio = Math.min(Math.max(speed / 120, 0), 1);
+      const hue = (1 - ratio) * 240;
+      return `hsl(${hue}, 100%, 50%)`;
+    };
+
+    const formatTime = ms => {
+      const sec = Math.floor(ms / 1000);
+      const min = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${String(min).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    };
+
+    const drawUpTo = index => {
+      if (index === lastIndex || allData.length === 0) return;
+
+      if (index > lastIndex) {
+        for (let i = lastIndex + 1; i <= index; i++) {
+          const pt = allData[i];
+          trail.push([pt.lat, pt.lon, pt.speed]);
+          if (trail.length > 1) {
+            const prev = trail[trail.length - 2];
+            const seg = L.polyline([[prev[0], prev[1]], [pt.lat, pt.lon]], {
+              color: speedToColor(prev[2]),
+              weight: 3
+            }).addTo(map);
+            polylines.push(seg);
+          }
+        }
+      } else {
+        for (let i = lastIndex; i > index; i--) {
+          const seg = polylines.pop();
+          if (seg) map.removeLayer(seg);
+          trail.pop();
+        }
+      }
+
+      if (currentMarker) map.removeLayer(currentMarker);
+      const last = allData[index];
+      currentLatLng = [last.lat, last.lon];
+      currentMarker = L.circleMarker([last.lat, last.lon], {
+        radius: 6,
+        color: 'red',
+        fillColor: 'red',
+        fillOpacity: 1.0
+      }).addTo(map);
+
+      map.panTo([last.lat, last.lon]);
+      document.getElementById('info').innerText = last.formatted;
+      document.getElementById('timeVal').innerText = formatTime(last.millis);
+      lastIndex = index;
+    };
+
+    const updateLive = async () => {
+      const res = await fetch('/data');
+      const [data] = await res.json();
+      if (!data.lat || !data.lon) return;
+
+      const lat = data.lat;
+      const lon = data.lon;
+      const speed = data.speed;
+      currentLatLng =[lat,lon];
+
+      if (trail.length > 0) {
+        const prev = trail[trail.length - 1];
+        const seg = L.polyline([[prev[0], prev[1]], [lat, lon]], {
+          color: speedToColor(prev[2]),
+          weight: 3
+        }).addTo(map);
+        polylines.push(seg);
+      }
+
+      trail.push([lat, lon, speed]);
+      if (currentMarker) map.removeLayer(currentMarker);
+      currentMarker = L.circleMarker([lat, lon], {
+        radius: 6,
+        color: 'red',
+        fillColor: 'red',
+        fillOpacity: 1.0
+      }).addTo(map);
+
+      map.panTo([lat, lon]);
+      document.getElementById('info').innerText = data.formatted;
+    };
+
+    const init = async () => {
+      if (await isLive()) {
+        // Mode Live (serial)
+        document.getElementById('slider').style.display = 'none';
+        setInterval(updateLive, 300);
+      } else {
+        // Mode CSV
+        const res = await fetch('/data');
+        allData = await res.json();
+
+        const slider = document.getElementById('range');
+        slider.max = allData.length - 1;
+        slider.value = allData.length - 1;
+        document.getElementById('slider').style.display = 'block';
+
+        slider.addEventListener("input", e => {
+          const idx = parseInt(e.target.value);
+          drawUpTo(idx);
+        });
+
+        drawUpTo(allData.length - 1);
+      }
+    };
+
+    init();
+    document.getElementById("recenter-btn").addEventListener("click", () => {
+  if (currentLatLng) {
+    map.setView(currentLatLng, 18);  // zoom 18 = bien centré
+  }
+});
+  </script>
+</body>
+</html>
