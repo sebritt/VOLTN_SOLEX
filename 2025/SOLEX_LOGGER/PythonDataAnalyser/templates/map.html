@@ -193,6 +193,36 @@
     map.setView(currentLatLng, 18);  // zoom 18 = bien centré
   }
 });
+
+  setInterval(async () => {
+    try {
+      const res = await fetch('/line_raw');
+      const text = await res.text();
+      document.getElementById('terminal').innerText = text;
+    } catch (e) {
+      document.getElementById('terminal').innerText = "Erreur de lecture";
+    }
+  }, 500); // Toutes les 0.5 secondes
+
   </script>
+  <div id="terminal" contenteditable="true" spellcheck="false" style="
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 1000;
+  background-color: black;
+  color: lime;
+  font-family: monospace;
+  padding: 10px;
+  border: 2px solid lime;
+  border-radius: 5px;
+  width: 40%;
+  height: 100px;
+  overflow-y: auto;
+  white-space: pre;
+">
+  Terminal...
+</div>
+
 </body>
 </html>

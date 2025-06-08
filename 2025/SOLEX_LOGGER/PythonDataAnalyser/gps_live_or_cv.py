@@ -111,5 +111,44 @@ def load_csv(path):
             except:
                 continue
 
+last_raw_line = ""
+
+def read_serial(port):
+    global latest_data, last_raw_line
+    ser = serial.Serial(port, 115200, timeout=1)
+    history = []
+    while True:
+        try:
+            line = ser.readline().decode(errors='ignore').strip()
+            last_raw_line = line  # Sauvegarde ligne brute
+            if not line or not line[0].isdigit():
+                continue
+            parts = line.split(',')
+            lat = float(parts[0])
+            lon = float(parts[1])
+            speed = float(parts[11])
+            millis = int(parts[9])
+            history.append(speed)
+            vmax = max(history)
+            vmean = sum(history) / len(history)
+            formatted = ""
+            for h, v in zip(headers, parts):
+                formatted += f"{h:>10}: {v}\n"
+            formatted += f"\n    Vitesse max: {vmax:.2f} km/h"
+            formatted += f"\n Vitesse moyenne: {vmean:.2f} km/h"
+            latest_data.update({
+                "lat": lat,
+                "lon": lon,
+                "speed": speed,
+                "formatted": formatted
+            })
+        except Exception as e:
+            print("Erreur:", e)
+
+@app.route("/line_raw")
+def line_raw():
+    return last_raw_line
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
