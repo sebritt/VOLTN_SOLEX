@@ -223,6 +223,61 @@
 ">
   Terminal...
 </div>
+<script>
+function makeDraggable(el) {
+  let isMouseDown = false;
+  let offset = [0, 0];
 
+  el.addEventListener('mousedown', function(e) {
+    isMouseDown = true;
+    offset = [
+      el.offsetLeft - e.clientX,
+      el.offsetTop - e.clientY
+    ];
+    el.style.cursor = 'move';
+  }, true);
+
+  document.addEventListener('mouseup', function() {
+    isMouseDown = false;
+    el.style.cursor = 'default';
+  }, true);
+
+  document.addEventListener('mousemove', function(e) {
+    if (!isMouseDown) return;
+    el.style.left = (e.clientX + offset[0]) + 'px';
+    el.style.top = (e.clientY + offset[1]) + 'px';
+    el.style.position = 'fixed';
+  }, true);
+}
+
+function makeDraggable(el) {
+  let isMouseDown = false;
+  let offset = [0, 0];
+
+  el.addEventListener('mousedown', function(e) {
+    isMouseDown = true;
+    offset = [
+      el.offsetLeft - e.clientX,
+      el.offsetTop - e.clientY
+    ];
+    el.style.cursor = 'move';
+  }, true);
+
+  document.addEventListener('mouseup', function() {
+    isMouseDown = false;
+    el.style.cursor = 'default';
+  }, true);
+
+  document.addEventListener('mousemove', function(e) {
+    if (!isMouseDown) return;
+    el.style.left = (e.clientX + offset[0]) + 'px';
+    el.style.top = (e.clientY + offset[1]) + 'px';
+    el.style.position = 'fixed';
+  }, true);
+}
+  makeDraggable(document.getElementById('terminal'));
+  makeDraggable(document.getElementById('info'));
+  makeDraggable(document.getElementById('slider'));
+</script>
 </body>
 </html>
