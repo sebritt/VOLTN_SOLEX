@@ -50,7 +50,20 @@
   border-radius: 4px;
   cursor: pointer;
 ">
-  Recentrer sur la position
+  Center
+</button>
+<button id="toggle-drag-btn" style="
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  z-index: 1000;
+  background-color: white;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+">
+  Move boxes
 </button>
   <div id="map"></div>
   <div id="info">En attente...</div>
@@ -224,11 +237,13 @@
   Terminal...
 </div>
 <script>
+  let dragEnabled = false;
 function makeDraggable(el) {
   let isMouseDown = false;
   let offset = [0, 0];
 
   el.addEventListener('mousedown', function(e) {
+    if (!dragEnabled) return;
     isMouseDown = true;
     offset = [
       el.offsetLeft - e.clientX,
@@ -243,38 +258,19 @@ function makeDraggable(el) {
   }, true);
 
   document.addEventListener('mousemove', function(e) {
-    if (!isMouseDown) return;
+    if (!dragEnabled || !isMouseDown) return;
     el.style.left = (e.clientX + offset[0]) + 'px';
     el.style.top = (e.clientY + offset[1]) + 'px';
     el.style.position = 'fixed';
   }, true);
 }
 
-function makeDraggable(el) {
-  let isMouseDown = false;
-  let offset = [0, 0];
-
-  el.addEventListener('mousedown', function(e) {
-    isMouseDown = true;
-    offset = [
-      el.offsetLeft - e.clientX,
-      el.offsetTop - e.clientY
-    ];
-    el.style.cursor = 'move';
-  }, true);
-
-  document.addEventListener('mouseup', function() {
-    isMouseDown = false;
-    el.style.cursor = 'default';
-  }, true);
-
-  document.addEventListener('mousemove', function(e) {
-    if (!isMouseDown) return;
-    el.style.left = (e.clientX + offset[0]) + 'px';
-    el.style.top = (e.clientY + offset[1]) + 'px';
-    el.style.position = 'fixed';
-  }, true);
-}
+document.getElementById('toggle-drag-btn').addEventListener('click', () => {
+  dragEnabled = !dragEnabled;
+  document.getElementById('toggle-drag-btn').innerText = dragEnabled
+    ? 'Désactiver déplacement'
+    : 'Activer déplacement';
+});
   makeDraggable(document.getElementById('terminal'));
   makeDraggable(document.getElementById('info'));
   makeDraggable(document.getElementById('slider'));
