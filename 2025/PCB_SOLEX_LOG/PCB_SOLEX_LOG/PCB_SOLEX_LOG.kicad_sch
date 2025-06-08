@@ -1,0 +1,51 @@
+(kicad_sch
+	(version 20231120)
+	(generator "eeschema")
+	(generator_version "8.0")
+	(uuid "741ea02a-6ce8-439b-9a64-886027937b91")
+	(paper "A4")
+	(lib_symbols)
+	(sheet
+		(at 29.21 157.48)
+		(size 50.8 31.75)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "09a4d06e-2be5-4b00-9856-747a27f6e351")
+		(property "Sheetname" "SD_CARD_READER"
+			(at 29.21 156.7684 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "SD_CARD_READER.kicad_sch"
+			(at 29.21 189.8146 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "PCB_SOLEX_LOG"
+				(path "/741ea02a-6ce8-439b-9a64-886027937b91"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+)
