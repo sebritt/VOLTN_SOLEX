@@ -12,10 +12,10 @@ use_csv_mode = False  # True = CSV, False = série
 last_raw_line = ""
 
 headers = [
-    "lat", "long", "height", "day", "month", "year", "hour", "minute", "second", "millis", "pdop", "speed_kmh",
-    "ori_x", "ori_y", "ori_z", "gyro_x", "gyro_y", "gyro_z", "acc_x", "acc_y", "acc_z",
-    "mag_x", "mag_y", "mag_z", "lin_x", "lin_y", "lin_z", "grav_x", "grav_y", "grav_z",
-    "temp", "cal_sys", "cal_gyro", "cal_accel", "cal_mag"
+    "lat", "long", "height", "day", "month", "year", "hour", "minute", "second", "millis", "speed_kmh",
+    "gyro_x", "gyro_y", "gyro_z",
+     "0_vesc_id" , "0_avgMotorCurrent","0_avgInputCurrent","0_inpVoltage","0_tempMosfet","0_tempMotor","0_error",
+    "1_avgMotorCurrent","1_avgInputCurrent","1_inpVoltage","1_tempMosfet","1_tempMotor","1_error"
 ]
 
 
@@ -66,6 +66,7 @@ def line_raw():
 
 def read_serial(port):
     global latest_data, last_raw_line
+    gyro_max = {"x": 0, "y": 0, "z": 0}
     ser = serial.Serial(port, 115200, timeout=1)
     history = []
     while True:
@@ -82,11 +83,25 @@ def read_serial(port):
             history.append(speed)
             vmax = max(history)
             vmean = sum(history) / len(history)
+
+            # Calcul gyro
+            gyro_x = abs(float(parts[headers.index("gyro_x")]))
+            gyro_y = abs(float(parts[headers.index("gyro_y")]))
+            gyro_z = abs(float(parts[headers.index("gyro_z")]))
+            gyro_max["x"] = max(gyro_max["x"], gyro_x)
+            gyro_max["y"] = max(gyro_max["y"], gyro_y)
+            gyro_max["z"] = max(gyro_max["z"], gyro_z)
+
+            # affichage
             formatted = ""
             for h, v in zip(headers, parts):
                 formatted += f"{h:>10}: {v}\n"
             formatted += f"\n    Vitesse max: {vmax:.2f} km/h"
             formatted += f"\n Vitesse moyenne: {vmean:.2f} km/h"
+            formatted += f"\n     Gyro max X: {gyro_max['x']:.2f}°"
+            formatted += f"\n     Gyro max Y: {gyro_max['y']:.2f}°"
+            formatted += f"\n     Gyro max Z: {gyro_max['z']:.2f}°"
+
             latest_data.update({
                 "lat": lat,
                 "lon": lon,
@@ -101,9 +116,11 @@ def load_csv(path):
     global all_points
     all_points = []
     history = []
+    gyro_max = {"x": 0, "y": 0, "z": 0}
+
     with open(path, newline='') as csvfile:
         reader = csv.reader(csvfile)
-        next(reader, None)
+        next(reader, None)  # sauter l'en-tête si présente
         for parts in reader:
             try:
                 lat = float(parts[0])
@@ -113,11 +130,25 @@ def load_csv(path):
                 history.append(speed)
                 vmax = max(history)
                 vmean = sum(history) / len(history)
+
+                # Calcul gyroscope max 
+                gyro_x = abs(float(parts[headers.index("gyro_x")]))
+                gyro_y = abs(float(parts[headers.index("gyro_y")]))
+                gyro_z = abs(float(parts[headers.index("gyro_z")]))
+                gyro_max["x"] = max(gyro_max["x"], gyro_x)
+                gyro_max["y"] = max(gyro_max["y"], gyro_y)
+                gyro_max["z"] = max(gyro_max["z"], gyro_z)
+
+                
                 formatted = ""
                 for h, v in zip(headers, parts):
-                    formatted += f"{h:>10}: {v}\n"
+                    formatted += f"{h:>15}: {v}\n"
                 formatted += f"\n    Vitesse max: {vmax:.2f} km/h"
                 formatted += f"\n Vitesse moyenne: {vmean:.2f} km/h"
+                formatted += f"\n     Gyro max X: {gyro_max['x']:.2f}°"
+                formatted += f"\n     Gyro max Y: {gyro_max['y']:.2f}°"
+                formatted += f"\n     Gyro max Z: {gyro_max['z']:.2f}°"
+
                 all_points.append({
                     "lat": lat,
                     "lon": lon,
@@ -125,8 +156,11 @@ def load_csv(path):
                     "millis": millis,
                     "formatted": formatted
                 })
-            except:
+            except Exception as e:
+                print("Erreur lecture CSV:", e)
                 continue
+
+
 
 
 if __name__ == "__main__":

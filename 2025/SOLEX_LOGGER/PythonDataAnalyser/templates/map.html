@@ -54,7 +54,10 @@
       </div>
     </div>
   </div>
-
+  <hr>
+      <div style="text-align: center;">
+        <button onclick="clearPage()">🔄 Réinitialiser</button>
+      </div>
   <div id="map"></div>
   <div id="info">En attente...</div>
   <div id="slider">
@@ -169,6 +172,8 @@
       const res = await fetch("/line_raw");
       document.getElementById('terminal').innerText = await res.text();
     }, 500);
+
+    
   </script>
 </body>
 </html>
