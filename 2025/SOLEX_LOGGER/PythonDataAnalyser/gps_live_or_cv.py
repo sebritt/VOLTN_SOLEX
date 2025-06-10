@@ -19,14 +19,21 @@ headers = [
 
 @app.route("/")
 def index():
-    ports = [p.device for p in serial.tools.list_ports.comports() if "ACM" in p.device]
+    ports = [p.device for p in serial.tools.list_ports.comports()]
     return render_template("index.html", ports=ports)
+
+@app.route("/ports")
+def get_ports():
+    ports = [p.device for p in serial.tools.list_ports.comports()]
+    return jsonify(ports)
 
 @app.route("/live", methods=["POST"])
 def start_live():
     global use_csv_mode
     use_csv_mode = False
-    port = request.form["port"]
+    port = request.form.get("port")
+    if not port:
+        return "Aucun port sélectionné", 400
     thread = threading.Thread(target=read_serial, args=(port,), daemon=True)
     thread.start()
     return redirect("/map")
