@@ -2,278 +2,173 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Carte GPS</title>
+  <title>Carte GPS - Mode Unifié</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
     html, body { margin: 0; padding: 0; height: 100%; }
     #map { height: 100vh; width: 100%; }
-    #info {
+    /* Popup Modal */
+    #modal {
       position: fixed;
-      bottom: 10px;
-      left: 10px;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       z-index: 9999;
-      background-color: white;
+    }
+    #modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
+    }
+    #info, #terminal, #slider {
+      position: fixed;
+      background: white;
       padding: 10px;
       border: 2px solid black;
       border-radius: 5px;
       font-family: monospace;
-      white-space: pre-wrap;
-      max-width: 40%;
+      z-index: 999;
     }
-    #slider {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      z-index: 9999;
-      background-color: white;
-      padding: 10px;
-      border: 2px solid black;
-      border-radius: 5px;
-      font-family: monospace;
-      display: none;
-    }
-    input[type=range] {
-      width: 250px;
-    }
+    #info { bottom: 10px; left: 10px; white-space: pre-wrap; max-width: 40%; }
+    #terminal { bottom: 10px; right: 10px; background: black; color: lime; width: 40%; height: 100px; overflow-y: auto; }
+    #slider { top: 10px; left: 10px; display: none; }
   </style>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
-  <button id="recenter-btn" style="
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 1000;
-  background-color: white;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
-">
-  Center
-</button>
-<button id="toggle-drag-btn" style="
-  position: absolute;
-  top: 50px;
-  right: 10px;
-  z-index: 1000;
-  background-color: white;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  cursor: pointer;
-">
-  Move boxes
-</button>
+  <div id="modal">
+    <div id="modal-content">
+      <h3>Choisir une source GPS</h3>
+      <div>
+        <label>Port série :</label>
+        <select id="port-select"></select>
+        <button onclick="startSerial()">Démarrer</button>
+      </div>
+      <hr>
+      <div>
+        <label>Fichier CSV :</label>
+        <input type="file" id="csvfile">
+        <button onclick="uploadCSV()">Charger</button>
+      </div>
+    </div>
+  </div>
+
   <div id="map"></div>
   <div id="info">En attente...</div>
   <div id="slider">
     <label for="range">Temps: <span id="timeVal">--:--</span></label><br>
     <input type="range" id="range" min="0" max="0" value="0">
   </div>
+  <div id="terminal">Terminal...</div>
 
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
+    let trail = [], polylines = [], allData = [], currentMarker = null, currentLatLng = null, lastIndex = -1;
+
     const map = L.map('map').setView([48.0, -1.0], 15);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18
-    }).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(map);
 
-    let trail = [];
-    let polylines = [];
-    let currentMarker = null;
-    let allData = [];
-    let lastIndex = -1;
-    let currentLatLng = null;
-
-    const isLive = async () => {
-      const res = await fetch('/data');
-      const data = await res.json();
-      return data.length === 1; // Live renvoie 1 point, CSV plusieurs
-    };
-
-    const speedToColor = speed => {
-      const ratio = Math.min(Math.max(speed / 120, 0), 1);
-      const hue = (1 - ratio) * 240;
-      return `hsl(${hue}, 100%, 50%)`;
-    };
-
-    const formatTime = ms => {
-      const sec = Math.floor(ms / 1000);
-      const min = Math.floor(sec / 60);
-      const s = sec % 60;
-      return `${String(min).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-    };
-
-    const drawUpTo = index => {
-      if (index === lastIndex || allData.length === 0) return;
-
-      if (index > lastIndex) {
-        for (let i = lastIndex + 1; i <= index; i++) {
-          const pt = allData[i];
-          trail.push([pt.lat, pt.lon, pt.speed]);
-          if (trail.length > 1) {
-            const prev = trail[trail.length - 2];
-            const seg = L.polyline([[prev[0], prev[1]], [pt.lat, pt.lon]], {
-              color: speedToColor(prev[2]),
-              weight: 3
-            }).addTo(map);
-            polylines.push(seg);
-          }
-        }
-      } else {
-        for (let i = lastIndex; i > index; i--) {
-          const seg = polylines.pop();
-          if (seg) map.removeLayer(seg);
-          trail.pop();
-        }
-      }
-
-      if (currentMarker) map.removeLayer(currentMarker);
-      const last = allData[index];
-      currentLatLng = [last.lat, last.lon];
-      currentMarker = L.circleMarker([last.lat, last.lon], {
-        radius: 6,
-        color: 'red',
-        fillColor: 'red',
-        fillOpacity: 1.0
-      }).addTo(map);
-
-      map.panTo([last.lat, last.lon]);
-      document.getElementById('info').innerText = last.formatted;
-      document.getElementById('timeVal').innerText = formatTime(last.millis);
-      lastIndex = index;
-    };
+    function formatTime(ms) {
+      const min = Math.floor(ms / 60000), sec = Math.floor((ms % 60000) / 1000);
+      return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+    }
 
     const updateLive = async () => {
       const res = await fetch('/data');
       const [data] = await res.json();
       if (!data.lat || !data.lon) return;
-
-      const lat = data.lat;
-      const lon = data.lon;
-      const speed = data.speed;
-      currentLatLng =[lat,lon];
-
+      const lat = data.lat, lon = data.lon, speed = data.speed;
+      currentLatLng = [lat, lon];
       if (trail.length > 0) {
         const prev = trail[trail.length - 1];
-        const seg = L.polyline([[prev[0], prev[1]], [lat, lon]], {
-          color: speedToColor(prev[2]),
-          weight: 3
-        }).addTo(map);
-        polylines.push(seg);
+        polylines.push(L.polyline([[prev[0], prev[1]], [lat, lon]], { color: 'blue' }).addTo(map));
       }
-
       trail.push([lat, lon, speed]);
       if (currentMarker) map.removeLayer(currentMarker);
-      currentMarker = L.circleMarker([lat, lon], {
-        radius: 6,
-        color: 'red',
-        fillColor: 'red',
-        fillOpacity: 1.0
-      }).addTo(map);
-
+      currentMarker = L.circleMarker([lat, lon], { radius: 6, color: 'red', fillOpacity: 1.0 }).addTo(map);
       map.panTo([lat, lon]);
       document.getElementById('info').innerText = data.formatted;
     };
 
-    const init = async () => {
-      if (await isLive()) {
-        // Mode Live (serial)
-        document.getElementById('slider').style.display = 'none';
-        setInterval(updateLive, 300);
+    const drawCSV = idx => {
+      if (idx === lastIndex) return;
+      if (idx > lastIndex) {
+        for (let i = lastIndex + 1; i <= idx; i++) {
+          const pt = allData[i];
+          trail.push([pt.lat, pt.lon, pt.speed]);
+          if (trail.length > 1) {
+            const prev = trail[trail.length - 2];
+            polylines.push(L.polyline([[prev[0], prev[1]], [pt.lat, pt.lon]], { color: 'green' }).addTo(map));
+          }
+        }
       } else {
-        // Mode CSV
-        const res = await fetch('/data');
-        allData = await res.json();
+        for (let i = lastIndex; i > idx; i--) {
+          map.removeLayer(polylines.pop());
+          trail.pop();
+        }
+      }
+      const last = allData[idx];
+      currentLatLng = [last.lat, last.lon];
+      if (currentMarker) map.removeLayer(currentMarker);
+      currentMarker = L.circleMarker(currentLatLng, { radius: 6, color: 'red' }).addTo(map);
+      document.getElementById('info').innerText = last.formatted;
+      document.getElementById('timeVal').innerText = formatTime(last.millis);
+      map.panTo(currentLatLng);
+      lastIndex = idx;
+    };
 
-        const slider = document.getElementById('range');
-        slider.max = allData.length - 1;
-        slider.value = allData.length - 1;
-        document.getElementById('slider').style.display = 'block';
-
-        slider.addEventListener("input", e => {
-          const idx = parseInt(e.target.value);
-          drawUpTo(idx);
-        });
-
-        drawUpTo(allData.length - 1);
+    const startSerial = async () => {
+      const port = document.getElementById("port-select").value;
+      const res = await fetch("/live", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ port })
+      });
+      if (res.ok) {
+        document.getElementById("modal").style.display = "none";
+        setInterval(updateLive, 500);
       }
     };
 
-    init();
-    document.getElementById("recenter-btn").addEventListener("click", () => {
-  if (currentLatLng) {
-    map.setView(currentLatLng, 18);  // zoom 18 = bien centré
-  }
-});
+    const uploadCSV = async () => {
+      const fileInput = document.getElementById("csvfile");
+      const formData = new FormData();
+      formData.append("csvfile", fileInput.files[0]);
+      const res = await fetch("/upload", { method: "POST", body: formData });
+      if (res.ok) {
+        const d = await fetch("/data");
+        allData = await d.json();
+        const slider = document.getElementById("range");
+        slider.max = allData.length - 1;
+        slider.value = allData.length - 1;
+        document.getElementById("slider").style.display = "block";
+        slider.oninput = e => drawCSV(parseInt(e.target.value));
+        drawCSV(allData.length - 1);
+        document.getElementById("modal").style.display = "none";
+      }
+    };
 
-  setInterval(async () => {
-    try {
-      const res = await fetch('/line_raw');
-      const text = await res.text();
-      document.getElementById('terminal').innerText = text;
-    } catch (e) {
-      document.getElementById('terminal').innerText = "Erreur de lecture";
-    }
-  }, 500); // Toutes les 0.5 secondes
+    const loadPorts = async () => {
+      const res = await fetch("/ports");
+      const ports = await res.json();
+      const select = document.getElementById("port-select");
+      select.innerHTML = "";
+      ports.forEach(port => {
+        const opt = document.createElement("option");
+        opt.value = port;
+        opt.textContent = port;
+        select.appendChild(opt);
+      });
+    };
 
+    loadPorts();
+
+    setInterval(async () => {
+      const res = await fetch("/line_raw");
+      document.getElementById('terminal').innerText = await res.text();
+    }, 500);
   </script>
-  <div id="terminal" contenteditable="true" spellcheck="false" style="
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  z-index: 1000;
-  background-color: black;
-  color: lime;
-  font-family: monospace;
-  padding: 10px;
-  border: 2px solid lime;
-  border-radius: 5px;
-  width: 40%;
-  height: 100px;
-  overflow-y: auto;
-  white-space: pre;
-">
-  Terminal...
-</div>
-<script>
-  let dragEnabled = false;
-function makeDraggable(el) {
-  let isMouseDown = false;
-  let offset = [0, 0];
-
-  el.addEventListener('mousedown', function(e) {
-    if (!dragEnabled) return;
-    isMouseDown = true;
-    offset = [
-      el.offsetLeft - e.clientX,
-      el.offsetTop - e.clientY
-    ];
-    el.style.cursor = 'move';
-  }, true);
-
-  document.addEventListener('mouseup', function() {
-    isMouseDown = false;
-    el.style.cursor = 'default';
-  }, true);
-
-  document.addEventListener('mousemove', function(e) {
-    if (!dragEnabled || !isMouseDown) return;
-    el.style.left = (e.clientX + offset[0]) + 'px';
-    el.style.top = (e.clientY + offset[1]) + 'px';
-    el.style.position = 'fixed';
-  }, true);
-}
-
-document.getElementById('toggle-drag-btn').addEventListener('click', () => {
-  dragEnabled = !dragEnabled;
-  document.getElementById('toggle-drag-btn').innerText = dragEnabled
-    ? 'Désactiver déplacement'
-    : 'Activer déplacement';
-});
-  makeDraggable(document.getElementById('terminal'));
-  makeDraggable(document.getElementById('info'));
-  makeDraggable(document.getElementById('slider'));
-</script>
 </body>
 </html>
