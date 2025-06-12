@@ -111,14 +111,24 @@
       const res = await fetch('/data');
       const [data] = await res.json();
       if (!data.lat || !data.lon) return;
+
       const lat = data.lat, lon = data.lon, speed = data.speed;
       currentLatLng = [lat, lon];
 
-      if (speed > 80) {
-        document.getElementById('alert-speed').style.display = 'block';
-      } else {
-        document.getElementById('alert-speed').style.display = 'none';
+      // Rotation des images
+      const gyroY = data.gyro_y || 0;
+      document.getElementById("face-img").style.transform = `rotate(${gyroY}deg)`;
+      const gyroMatch = data.formatted.match(/gyro_x\s*:\s*([-\d.]+)/);
+      if (gyroMatch) {
+        const gyroX = parseFloat(gyroMatch[1]);
+        const profilImg = document.getElementById('profil-img');
+        if (profilImg) {
+          profilImg.style.transform = `rotate(${gyroX}deg)`;
+        }
       }
+
+      // Alerte vitesse
+      document.getElementById('alert-speed').style.display = (speed > 90) ? 'block' : 'none';
 
       if (trail.length > 0) {
         const prev = trail[trail.length - 1];
@@ -130,6 +140,7 @@
       map.panTo([lat, lon]);
       document.getElementById('info').innerText = data.formatted;
     };
+
 
     const drawCSV = idx => {
       if (idx === lastIndex) return;
@@ -157,7 +168,7 @@
       map.panTo(currentLatLng);
       lastIndex = idx;
 
-      if (last.speed > 80) {
+      if (last.speed > 120) {
         document.getElementById('alert-speed').style.display = 'block';
       } else {
         document.getElementById('alert-speed').style.display = 'none';
@@ -215,5 +226,7 @@
       document.getElementById('terminal').innerText = await res.text();
     }, 500);
   </script>
+  <img id="face-img" src="/static/images/face.png" style="position: fixed; bottom: 115px; right: 10px; width: 80px; height: auto; transform: rotate(0deg); transition: transform 0.2s linear; z-index: 1000;" />
+  <img id="profil-img" src="/static/images/profil.png" style="position: fixed; bottom: 120px; right: 100px; width: 100px; height: auto; transform: rotate(0deg); transition: transform 0.2s linear; z-index: 1001;"/>
 </body>
 </html>

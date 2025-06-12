@@ -10,7 +10,7 @@ latest_data = {"lat": None, "lon": None, "speed": 0, "formatted": "En attente...
 all_points = []
 use_csv_mode = False  # True = CSV, False = série
 last_raw_line = ""
-MAX_SPEED = 80
+MAX_SPEED = 120
 
 headers = [
     "lat", "long", "height", "day", "month", "year", "hour", "minute", "second", "millis", "speed_kmh",
@@ -59,6 +59,9 @@ def upload_file():
 def data():
     return jsonify(all_points if use_csv_mode else [latest_data])
 
+@app.route('/static/<path:filename>')
+def static_files(filename):
+    return app.send_static_file(filename)
 
 @app.route("/line_raw")
 def line_raw():
@@ -108,6 +111,7 @@ def read_serial(port):
             formatted += f"\n     Gyro max Z: {gyro_max['z']:.2f}°"
 
             latest_data.update({
+                "gyro_y": gyro_y,
                 "lat": lat,
                 "lon": lon,
                 "speed": speed,
