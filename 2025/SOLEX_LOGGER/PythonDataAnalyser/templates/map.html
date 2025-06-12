@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Carte GPS - Mode Unifié</title>
+  <title>VOLT'N SOLEX</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
     html, body { margin: 0; padding: 0; height: 100%; }
@@ -35,6 +35,35 @@
     #info { bottom: 10px; left: 10px; white-space: pre-wrap; max-width: 40%; }
     #terminal { bottom: 10px; right: 10px; background: black; color: lime; width: 40%; height: 100px; overflow-y: auto; }
     #slider { top: 10px; left: 10px; display: none; }
+    #Clear {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 5px 8px;
+      cursor: pointer;
+      font-size: 14px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    #Clear:hover {
+      background-color: #f0f0f0;
+    }
+    #alert-speed {
+      position: fixed;
+      top: 10px;
+      right: 60px; /* à côté du bouton de refresh */
+      z-index: 1001;
+      background-color: red;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-weight: bold;
+      display: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
   </style>
 </head>
 <body>
@@ -54,11 +83,11 @@
       </div>
     </div>
   </div>
-  <hr>
-      <div style="text-align: center;">
-        <button onclick="clearPage()">🔄 Réinitialiser</button>
-      </div>
+  
+
   <div id="map"></div>
+  <div id="alert-speed">⚠️ Vitesse élevée détectée !</div>
+  <button id="Clear" onclick="location.reload()">🔄</button>
   <div id="info">En attente...</div>
   <div id="slider">
     <label for="range">Temps: <span id="timeVal">--:--</span></label><br>
@@ -84,6 +113,13 @@
       if (!data.lat || !data.lon) return;
       const lat = data.lat, lon = data.lon, speed = data.speed;
       currentLatLng = [lat, lon];
+
+      if (speed > 80) {
+        document.getElementById('alert-speed').style.display = 'block';
+      } else {
+        document.getElementById('alert-speed').style.display = 'none';
+      }
+
       if (trail.length > 0) {
         const prev = trail[trail.length - 1];
         polylines.push(L.polyline([[prev[0], prev[1]], [lat, lon]], { color: 'blue' }).addTo(map));
@@ -120,6 +156,12 @@
       document.getElementById('timeVal').innerText = formatTime(last.millis);
       map.panTo(currentLatLng);
       lastIndex = idx;
+
+      if (last.speed > 80) {
+        document.getElementById('alert-speed').style.display = 'block';
+      } else {
+        document.getElementById('alert-speed').style.display = 'none';
+      }
     };
 
     const startSerial = async () => {
@@ -172,8 +214,6 @@
       const res = await fetch("/line_raw");
       document.getElementById('terminal').innerText = await res.text();
     }, 500);
-
-    
   </script>
 </body>
 </html>

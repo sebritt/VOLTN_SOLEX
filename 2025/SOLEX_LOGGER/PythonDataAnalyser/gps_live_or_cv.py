@@ -10,6 +10,7 @@ latest_data = {"lat": None, "lon": None, "speed": 0, "formatted": "En attente...
 all_points = []
 use_csv_mode = False  # True = CSV, False = série
 last_raw_line = ""
+MAX_SPEED = 80
 
 headers = [
     "lat", "long", "height", "day", "month", "year", "hour", "minute", "second", "millis", "speed_kmh",
@@ -78,7 +79,11 @@ def read_serial(port):
             parts = line.split(',')
             lat = float(parts[0])
             lon = float(parts[1])
-            speed = float(parts[11])
+            speed_raw = float(parts[11])
+            if speed_raw > MAX_SPEED: #filtre
+                print(f"Ignoré: vitesse aberrante {speed_raw} km/h")
+                continue
+            speed = speed_raw
             millis = int(parts[9])
             history.append(speed)
             vmax = max(history)
@@ -126,7 +131,11 @@ def load_csv(path):
                 lat = float(parts[0])
                 lon = float(parts[1])
                 millis = int(parts[9])
-                speed = float(parts[11])
+                speed_raw = float(parts[11])
+                if speed_raw > MAX_SPEED:
+                    print(f"Ignoré (CSV): {speed_raw} km/h")
+                    continue
+                speed = speed_raw
                 history.append(speed)
                 vmax = max(history)
                 vmean = sum(history) / len(history)
