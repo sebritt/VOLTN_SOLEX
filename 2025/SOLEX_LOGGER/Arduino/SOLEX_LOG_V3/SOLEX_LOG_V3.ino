@@ -72,17 +72,17 @@ void beepBuzzer(unsigned long duration) {
 
 void lcd_static() {
   lcd.setCursor(0, 0);
-  lcd.print("   C SD:           C");
+  lcd.print("   A SD:            ");
   lcd.setCursor(0, 1);
-  lcd.print("   A GPS:          A");
+  lcd.print("   C GPS:           ");
   lcd.setCursor(0, 3);
-  lcd.print("    V     %     km/h");
+  lcd.print("    V           km/h");
   lcd_current_g(-1);
-  lcd_current_d(-1);
+  //lcd_current_d(-1);
   lcd_temp_g(-1);
-  lcd_temp_d(-1);
+  //lcd_temp_d(-1);
   lcd_battery_voltage(-1);
-  lcd_battery_level(-1);
+  //lcd_battery_level(-1);
   lcd_speed(-1);
   lcd_gps_fix(false);
   lcd_sd_status(LCD_NO_INFO);
@@ -423,10 +423,12 @@ void loop() {
         dataFile.print(","); dataFile.print(acal);
         dataFile.print(","); dataFile.print(mcal);
         
-        if(VESC.getVescValues(0))
+        if(VESC.getVescValues())
         {
           lcd_current_g((int)VESC.data.avgMotorCurrent);
           lcd_temp_g((int)VESC.data.tempMosfet);
+          lcd_battery_voltage(VESC.data.inpVoltage);
+          
 
           dataFile.print(","); dataFile.print(VESC.data.id);
           dataFile.print(","); dataFile.print(VESC.data.avgMotorCurrent);
@@ -449,14 +451,13 @@ void loop() {
         }
       else
         {
-          lcd_current_g(-1);
-          lcd_temp_g(-1);
           dataFile.print(",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
         }
-      if(VESC.getVescValues(1))
+      /*if(VESC.getVescValues(1))
         {
           lcd_current_d((int)VESC.data.avgMotorCurrent);
           lcd_temp_d((int)VESC.data.tempMosfet);
+          
 
           dataFile.print(","); dataFile.print(VESC.data.id);
           dataFile.print(","); dataFile.print(VESC.data.avgMotorCurrent);
@@ -477,11 +478,10 @@ void loop() {
         }
       else
         {
-          lcd_current_d(-1);
-          lcd_temp_d(-1);
           dataFile.print(",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
         }
-
+        */
+        dataFile.print(",1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
         dataFile.println();
         dataFile.flush();
       }
